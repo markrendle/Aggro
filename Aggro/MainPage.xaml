@@ -10,8 +10,8 @@
 
     <Canvas x:Name="LayoutRoot" Background="LightGray">
         <Rectangle Name="block" Width="32" Height="32"
-                   Canvas.Top="{Binding Player.Location.X}"
-                   Canvas.Left="{Binding Player.Location.Y}"
+                   Canvas.Top="{Binding Player.Location.Y}"
+                   Canvas.Left="{Binding Player.Location.X}"
                    RenderTransform="{Binding Player.Transform}"
                    Fill="Red"
                    RenderTransformOrigin="0.5 0.5">

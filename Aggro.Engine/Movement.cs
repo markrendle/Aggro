@@ -15,9 +15,9 @@ namespace Aggro.Engine
     public class Movement : DependencyObject
     {
         public static readonly DependencyProperty XProperty =
-            DependencyProperty.Register("X", typeof(double), typeof(Movement), new PropertyMetadata(0));
+            DependencyProperty.Register("X", typeof(double), typeof(Movement), new PropertyMetadata(0D));
         public static readonly DependencyProperty YProperty =
-            DependencyProperty.Register("Y", typeof(double), typeof(Movement), new PropertyMetadata(0));
+            DependencyProperty.Register("Y", typeof(double), typeof(Movement), new PropertyMetadata(0D));
 
         private static readonly Dictionary<Direction, Point> _vectors = CreateVectorDictionary();
 
@@ -79,14 +79,16 @@ namespace Aggro.Engine
 
         private static Dictionary<Direction, Point> CreateVectorDictionary()
         {
-            double angular = Math.Sin(Trig.Radians(45));
+            double straight = 100D;
+            double angular = Math.Sin(Trig.Radians(45)) * 100;
 
             var dict = new Dictionary<Direction, Point>
             {
-                { Direction.North, new Point(0, -1) },
-                { Direction.South, new Point(0, 1) },
-                { Direction.East, new Point(1, 0) },
-                { Direction.West, new Point(-1, 0) },
+                { Direction.None, new Point() },
+                { Direction.North, new Point(0, -straight) },
+                { Direction.South, new Point(0, straight) },
+                { Direction.East, new Point(straight, 0) },
+                { Direction.West, new Point(-straight, 0) },
                 { Direction.NorthEast, new Point(angular, -angular) },
                 { Direction.NorthWest, new Point(-angular, -angular) },
                 { Direction.SouthEast, new Point(angular, angular) },

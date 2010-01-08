@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using System.Diagnostics;
 
 namespace Aggro.Engine
 {
@@ -18,7 +19,7 @@ namespace Aggro.Engine
 
         public Point Location
         {
-            get { return (Point)GetValue(LocationProperty); }
+            get { Debug.WriteLine("Entity.Location get"); return (Point)GetValue(LocationProperty); }
             protected set { SetValue(LocationProperty, value); }
         }
     }

@@ -9,30 +9,36 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Windows.Data;
+using System.Diagnostics;
 
 namespace Aggro.Engine
 {
-    public class MoveableEntity : DependencyObject
+    public class MoveableEntity : Entity
     {
         private readonly Movement _movement;
         private readonly TranslateTransform _translateTransform;
-        private readonly Storyboard _storyBoard;
+        private readonly Storyboard _storyboard;
 
         public MoveableEntity()
         {
             _movement = new Movement();
-            _movement.CurrentDirectionChanged += new EventHandler(movement_DirectionChanged);
+            _movement.CurrentDirectionChanged += movement_DirectionChanged;
             _translateTransform = new TranslateTransform();
 
-            _storyBoard = new Storyboard
-            {
-                RepeatBehavior = RepeatBehavior.Forever
-            };
+            _storyboard = new Storyboard { RepeatBehavior = new RepeatBehavior(1) };
 
-            _storyBoard.Children.Add(CreateAnimation(Movement.XProperty, TranslateTransform.XProperty));
-            _storyBoard.Children.Add(CreateAnimation(Movement.YProperty, TranslateTransform.YProperty));
-            _storyBoard.Begin();
-            _storyBoard.Pause();
+            _storyboard.Children.Add(CreateAnimation("X", TranslateTransform.XProperty));
+            _storyboard.Children.Add(CreateAnimation("Y", TranslateTransform.YProperty));
+
+            _storyboard.Completed += new EventHandler(_storyboard_Completed);
+        }
+
+        void _storyboard_Completed(object sender, EventArgs e)
+        {
+            if (_movement.CurrentDirection != Direction.None)
+            {
+                _storyboard.Begin();
+            }
         }
 
         public Movement Movement
@@ -47,30 +53,43 @@ namespace Aggro.Engine
 
         void  movement_DirectionChanged(object sender, EventArgs e)
         {
-         	if (_movement.CurrentDirection == Direction.None)
+            if (_movement.CurrentDirection == Direction.None)
             {
-                _storyBoard.Pause();
+                Debug.WriteLine("{0},{1}", _translateTransform.X, _translateTransform.Y);
+                this.Location = _translateTransform.Transform(this.Location);
+                _storyboard.Stop();
             }
-            else 
+            else
             {
-                _storyBoard.Resume();
+                _storyboard.Begin();
             }
         }
 
-        private DoubleAnimation CreateAnimation(DependencyProperty movementProperty, DependencyProperty transformProperty)
+        private DoubleAnimation CreateAnimation(string movementPropertyPath, DependencyProperty transformProperty)
         {
-            var animation = new DoubleAnimation();
-            animation.SetValue(DoubleAnimation.ByProperty, new Binding
+            var animation = new DoubleAnimation
             {
-                Source = _movement,
-                Path = new PropertyPath(movementProperty),
-                Mode = BindingMode.OneWay
-            });
+                RepeatBehavior = new RepeatBehavior(1)
+            };
 
             Storyboard.SetTarget(animation, _translateTransform);
             Storyboard.SetTargetProperty(animation, new PropertyPath(transformProperty));
 
+            var binding = new Binding(movementPropertyPath)
+            {
+                Source = _movement
+            };
+
+            BindingOperations.SetBinding(animation, DoubleAnimation.ByProperty, binding);
+
+            animation.Completed += new EventHandler(animation_Completed);
+
             return animation;
+        }
+
+        void animation_Completed(object sender, EventArgs e)
+        {
+            //_storyboard.Begin();
         }
     }
 }
