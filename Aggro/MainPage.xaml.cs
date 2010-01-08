@@ -10,52 +10,45 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Diagnostics;
+using Aggro.Models;
+using Aggro.Engine;
+using Aggro.ViewModels;
 
 namespace Aggro
 {
     public partial class MainPage : UserControl
     {
+        private readonly MainViewModel _viewModel;
+        private readonly Dictionary<Key, Direction> _directions = new Dictionary<Key, Direction>
+        {
+            { Key.W, Direction.North },
+            { Key.A, Direction.West },
+            { Key.S, Direction.South },
+            { Key.D, Direction.East }
+        };
+
         public MainPage()
         {
-            Debug.WriteLine("Constructor");
             InitializeComponent();
             IsTabStop = true;
             Focus();
+            DataContext = _viewModel = new MainViewModel();
         }
 
         private void UserControl_KeyDown(object sender, KeyEventArgs e)
         {
-            var sb = block.Resources["mover"] as Storyboard;
-            if (sb != null)
+            if (_directions.ContainsKey(e.Key))
             {
-                sb.Begin();
+                _viewModel.Player.Movement.AddDirection(_directions[e.Key]);
             }
         }
 
         private void UserControl_KeyUp(object sender, KeyEventArgs e)
         {
-            var sb = block.Resources["mover"] as Storyboard;
-            if (sb != null)
+            if (_directions.ContainsKey(e.Key))
             {
-                var pt = block.GetCanvasLocation();
-                pt = block.RenderTransform.Transform(pt);
-                sb.Stop();
-                block.SetCanvasLocation(pt);
-                block.SetValue(Canvas.LeftProperty, pt.X);
-                block.SetValue(Canvas.TopProperty, pt.Y);
+                _viewModel.Player.Movement.RemoveDirection(_directions[e.Key]);
             }
-        }
-
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            var sb = block.Resources["mover"] as Storyboard;
-            var da = sb.Children[0] as DoubleAnimation;
-            da.Completed += da_Completed;
-        }
-
-        void da_Completed(object sender, EventArgs e)
-        {
-            Debug.WriteLine("da_Completed");
         }
     }
 }

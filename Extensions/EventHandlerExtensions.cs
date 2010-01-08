@@ -8,11 +8,17 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
-using Aggro.Engine;
 
-namespace Aggro.Models
+namespace System
 {
-    public class Player : MoveableEntity
+    public static class EventHandlerExtensions
     {
+        public static void Raise(this EventHandler handler, object sender)
+        {
+            if (handler != null)
+            {
+                handler(sender, EventArgs.Empty);
+            }
+        }
     }
 }

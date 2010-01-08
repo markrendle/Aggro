@@ -8,11 +8,14 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
-using Aggro.Engine;
 
-namespace Aggro.Models
+namespace Aggro.Engine
 {
-    public class Player : MoveableEntity
+    public static class Trig
     {
+        public static double Radians(double degrees)
+        {
+            return (Math.PI * degrees) / 180;
+        }
     }
 }
