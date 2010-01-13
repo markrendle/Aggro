@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Direction.cs" />
     <Compile Include="Entity.cs" />
+    <Compile Include="Input.cs" />
     <Compile Include="MoveableEntity.cs" />
     <Compile Include="Movement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -65,9 +66,9 @@
     <Compile Include="Vector.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Extensions\Extensions.csproj">
+    <ProjectReference Include="..\Extensions\Aggro.Extensions.csproj">
       <Project>{47C5CD19-0291-4F8E-9B59-6CDCEB074E47}</Project>
-      <Name>Extensions</Name>
+      <Name>Aggro.Extensions</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />

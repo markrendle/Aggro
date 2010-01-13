@@ -79,8 +79,8 @@ namespace Aggro.Engine
 
         private static Dictionary<Direction, Point> CreateVectorDictionary()
         {
-            double straight = 100D;
-            double angular = Math.Sin(Trig.Radians(45)) * 100;
+            double straight = 1000000D;
+            double angular = Math.Sin(Trig.Radians(45)) * 1000000D;
 
             var dict = new Dictionary<Direction, Point>
             {

@@ -32,6 +32,12 @@ namespace Aggro
             InitializeComponent();
             IsTabStop = true;
             Focus();
+
+            Input.Default.SetSources(
+                Observable.FromEvent<KeyEventArgs>(this, "KeyDown").Select(args => args.EventArgs.Key),
+                Observable.FromEvent<KeyEventArgs>(this, "KeyUp").Select(args => args.EventArgs.Key)
+                );
+
             DataContext = _viewModel = new MainViewModel();
         }
 

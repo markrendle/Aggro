@@ -19,26 +19,18 @@ namespace Aggro.Engine
         private readonly TranslateTransform _translateTransform;
         private readonly Storyboard _storyboard;
 
+        private double _speed = 1;
+
         public MoveableEntity()
         {
             _movement = new Movement();
             _movement.CurrentDirectionChanged += movement_DirectionChanged;
             _translateTransform = new TranslateTransform();
 
-            _storyboard = new Storyboard { RepeatBehavior = new RepeatBehavior(1) };
+            _storyboard = new Storyboard();
 
             _storyboard.Children.Add(CreateAnimation("X", TranslateTransform.XProperty));
             _storyboard.Children.Add(CreateAnimation("Y", TranslateTransform.YProperty));
-
-            _storyboard.Completed += new EventHandler(_storyboard_Completed);
-        }
-
-        void _storyboard_Completed(object sender, EventArgs e)
-        {
-            if (_movement.CurrentDirection != Direction.None)
-            {
-                _storyboard.Begin();
-            }
         }
 
         public Movement Movement
@@ -51,11 +43,16 @@ namespace Aggro.Engine
             get { return _translateTransform; }
         }
 
+        public double Speed
+        {
+            get { return _speed; }
+            set { _speed = value; }
+        }
+
         void  movement_DirectionChanged(object sender, EventArgs e)
         {
             if (_movement.CurrentDirection == Direction.None)
             {
-                Debug.WriteLine("{0},{1}", _translateTransform.X, _translateTransform.Y);
                 this.Location = _translateTransform.Transform(this.Location);
                 _storyboard.Stop();
             }
@@ -69,7 +66,7 @@ namespace Aggro.Engine
         {
             var animation = new DoubleAnimation
             {
-                RepeatBehavior = new RepeatBehavior(1)
+                Duration = new Duration((_speed * 10000D).Seconds())
             };
 
             Storyboard.SetTarget(animation, _translateTransform);
@@ -82,14 +79,7 @@ namespace Aggro.Engine
 
             BindingOperations.SetBinding(animation, DoubleAnimation.ByProperty, binding);
 
-            animation.Completed += new EventHandler(animation_Completed);
-
             return animation;
-        }
-
-        void animation_Completed(object sender, EventArgs e)
-        {
-            //_storyboard.Begin();
         }
     }
 }

@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aggro", "Aggro\Aggro.csproj", "{62E38647-C665-454A-A54D-ED024542E028}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extensions", "Extensions\Extensions.csproj", "{47C5CD19-0291-4F8E-9B59-6CDCEB074E47}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aggro.Extensions", "Extensions\Aggro.Extensions.csproj", "{47C5CD19-0291-4F8E-9B59-6CDCEB074E47}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aggro.Engine", "Aggro.Engine\Aggro.Engine.csproj", "{9B054BC6-EF2D-42C5-B59C-802AB30AAAA3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{F2A456E5-EAE5-460B-AD66-A8A6D687641D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Rx", "Rx", "{D586FE5D-C152-4DDA-8E00-DD6EBACA560A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,5 +32,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D586FE5D-C152-4DDA-8E00-DD6EBACA560A} = {F2A456E5-EAE5-460B-AD66-A8A6D687641D}
 	EndGlobalSection
 EndGlobal

@@ -61,6 +61,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
+    <Reference Include="System.Reactive, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1b331ac6720247d9, processorArchitecture=MSIL" />
     <Reference Include="System.Windows" />
     <Reference Include="system" />
     <Reference Include="System.Core" />
@@ -97,9 +98,9 @@
       <Project>{9B054BC6-EF2D-42C5-B59C-802AB30AAAA3}</Project>
       <Name>Aggro.Engine</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Extensions\Extensions.csproj">
+    <ProjectReference Include="..\Extensions\Aggro.Extensions.csproj">
       <Project>{47C5CD19-0291-4F8E-9B59-6CDCEB074E47}</Project>
-      <Name>Extensions</Name>
+      <Name>Aggro.Extensions</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
