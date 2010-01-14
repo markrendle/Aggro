@@ -4,9 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DesignHeight="300" d:DesignWidth="400"
-             KeyDown="UserControl_KeyDown"
-             KeyUp="UserControl_KeyUp">
+    d:DesignHeight="480" d:DesignWidth="640">
 
     <Canvas x:Name="LayoutRoot" Background="LightGray">
         <Rectangle Name="block" Width="32" Height="32"

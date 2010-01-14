@@ -10,6 +10,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{F2A456E5-EAE5-460B-AD66-A8A6D687641D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Rx", "Rx", "{D586FE5D-C152-4DDA-8E00-DD6EBACA560A}"
+	ProjectSection(SolutionItems) = preProject
+		Libraries\Rx\System.Reactive.dll = Libraries\Rx\System.Reactive.dll
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

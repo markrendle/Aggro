@@ -21,27 +21,75 @@ namespace Aggro.Engine
             get { return _default; }
         }
 
-        private IObservable<Key> _keyDowns;
-        private IObservable<Key> _keyUps;
+        private readonly Subject<InputType> _sourceChanges = new Subject<InputType>();
 
-        public void SetSources(IObservable<Key> keyDowns, IObservable<Key> keyUps)
+        private IObservable<Direction> _directionStarts;
+        private IObservable<Direction> _directionStops;
+
+        private IObservable<Point> _mouseLeftDowns;
+        private IObservable<Point> _mouseLeftUps;
+
+        private IObservable<Point> _mouseRightDowns;
+        private IObservable<Point> _mouseRightUps;
+
+        private IObservable<Point> _mouseMoves;
+
+        public void SetDirectionSources(Tuple<IObservable<Direction>, IObservable<Direction>> sources)
         {
-            this._keyDowns = keyDowns;
-            this._keyUps = keyUps;
-            SourcesChanged.Raise(this);
+            SetDirectionSources(sources.Item1, sources.Item2);
         }
 
-        public IObservable<Key> KeyDowns
+        public void SetDirectionSources(IObservable<Direction> starts, IObservable<Direction> stops)
         {
-            get { return _keyDowns; }
+            this._directionStarts = starts;
+            this._directionStops = stops;
+            _sourceChanges.OnNext(InputType.Direction);
+        }
+
+        public void SetMouseLeftButtonSources(Tuple<IObservable<Point>, IObservable<Point>> sources)
+        {
+            SetMouseLeftButtonSources(sources.Item1, sources.Item2);
+        }
+
+        public void SetMouseLeftButtonSources(IObservable<Point> downs, IObservable<Point> ups)
+        {
+            this._mouseLeftDowns = downs;
+            this._mouseLeftUps = ups;
+            _sourceChanges.OnNext(InputType.MouseLeftButton);
+        }
+
+        public void SetMouseRightButtonSources(Tuple<IObservable<Point>, IObservable<Point>> sources)
+        {
+            SetMouseRightButtonSources(sources.Item1, sources.Item2);
+        }
+
+        public void SetMouseRightButtonSources(IObservable<Point> downs, IObservable<Point> ups)
+        {
+            this._mouseRightDowns = downs;
+            this._mouseRightUps = ups;
+            _sourceChanges.OnNext(InputType.MouseRightButton);
+        }
+
+        public void SetMouseMoveSource(IObservable<Point> moves)
+        {
+            this._mouseMoves = moves;
+            _sourceChanges.OnNext(InputType.Mouse);
+        }
+
+        public IObservable<Direction> KeyDowns
+        {
+            get { return _directionStarts; }
         }
 
 
-        public IObservable<Key> KeyUps
+        public IObservable<Direction> KeyUps
         {
-            get { return _keyUps; }
+            get { return _directionStops; }
         }
 
-        public event EventHandler SourcesChanged;
+        public IObservable<InputType> SourceChanges
+        {
+            get { return _sourceChanges; }
+        }
     }
 }

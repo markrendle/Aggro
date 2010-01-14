@@ -16,24 +16,17 @@ namespace Aggro.Models
 {
     public class Player : MoveableEntity
     {
-        private static readonly Dictionary<Key, Direction> _directions = new Dictionary<Key, Direction>
-        {
-            { Key.W, Direction.North },
-            { Key.A, Direction.West },
-            { Key.S, Direction.South },
-            { Key.D, Direction.East }
-        };
 
         private IDisposable _keyDownSource;
         private IDisposable _keyUpSource;
 
         public Player()
         {
-            Input.Default.SourcesChanged += Default_SourcesChanged;
+            Input.Default.SourceChanges.Where(src => src == InputType.Direction).Subscribe(Keyboard_SourcesChanged);
             AttachMovementHandlers();
         }
 
-        void Default_SourcesChanged(object sender, EventArgs e)
+        void Keyboard_SourcesChanged()
         {
             _keyDownSource.TryDispose();
             _keyUpSource.TryDispose();
@@ -49,15 +42,8 @@ namespace Aggro.Models
                 return;
             }
 
-            _keyDownSource = GetDirectionSource(Input.Default.KeyDowns).Subscribe(Movement.AddDirection);
-            _keyUpSource = GetDirectionSource(Input.Default.KeyUps).Subscribe(Movement.RemoveDirection);
-        }
-
-        private IObservable<Direction> GetDirectionSource(IObservable<Key> source)
-        {
-            return from key in source
-                   where _directions.ContainsKey(key)
-                   select _directions[key];
+            _keyDownSource = Input.Default.KeyDowns.Subscribe(Movement.AddDirection);
+            _keyUpSource = Input.Default.KeyUps.Subscribe(Movement.RemoveDirection);
         }
     }
 }

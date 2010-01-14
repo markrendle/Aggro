@@ -13,19 +13,13 @@ using System.Diagnostics;
 using Aggro.Models;
 using Aggro.Engine;
 using Aggro.ViewModels;
+using Aggro.Converters;
 
 namespace Aggro
 {
     public partial class MainPage : UserControl
     {
         private readonly MainViewModel _viewModel;
-        private readonly Dictionary<Key, Direction> _directions = new Dictionary<Key, Direction>
-        {
-            { Key.W, Direction.North },
-            { Key.A, Direction.West },
-            { Key.S, Direction.South },
-            { Key.D, Direction.East }
-        };
 
         public MainPage()
         {
@@ -33,28 +27,17 @@ namespace Aggro
             IsTabStop = true;
             Focus();
 
-            Input.Default.SetSources(
-                Observable.FromEvent<KeyEventArgs>(this, "KeyDown").Select(args => args.EventArgs.Key),
-                Observable.FromEvent<KeyEventArgs>(this, "KeyUp").Select(args => args.EventArgs.Key)
+            Input.Default.SetDirectionSources(
+                KeyToDirectionConverter.ToDirections(this)
                 );
 
+            Input.Default.SetMouseLeftButtonSources(MouseToPointConverter.LeftButtonToPoints(this));
+
+            Input.Default.SetMouseRightButtonSources(MouseToPointConverter.RightButtonToPoints(this));
+
+            Input.Default.SetMouseMoveSource(MouseToPointConverter.MoveToPoints(this));
+
             DataContext = _viewModel = new MainViewModel();
-        }
-
-        private void UserControl_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (_directions.ContainsKey(e.Key))
-            {
-                _viewModel.Player.Movement.AddDirection(_directions[e.Key]);
-            }
-        }
-
-        private void UserControl_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (_directions.ContainsKey(e.Key))
-            {
-                _viewModel.Player.Movement.RemoveDirection(_directions[e.Key]);
-            }
         }
     }
 }

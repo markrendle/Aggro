@@ -47,7 +47,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
-    <Reference Include="System.Reactive, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1b331ac6720247d9, processorArchitecture=MSIL" />
+    <Reference Include="System.Reactive">
+      <HintPath>..\Libraries\Rx\System.Reactive.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows" />
     <Reference Include="system" />
     <Reference Include="System.Core" />
@@ -59,11 +61,11 @@
     <Compile Include="Direction.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Input.cs" />
+    <Compile Include="InputType.cs" />
     <Compile Include="MoveableEntity.cs" />
     <Compile Include="Movement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Trig.cs" />
-    <Compile Include="Vector.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Extensions\Aggro.Extensions.csproj">
