@@ -1,0 +1,23 @@
+﻿using System;
+using System.Net;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Ink;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace System.Windows
+{
+    public static class DependencyObjectExtensions
+    {
+        public static void SetBinding<T>(this DependencyObject obj, DependencyProperty property, IObservable<T> source)
+        {
+            source.SubscribeOnDispatcher(value => obj.SetValue(property, value));
+        }
+    }
+}

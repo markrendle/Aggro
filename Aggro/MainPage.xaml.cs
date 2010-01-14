@@ -27,9 +27,7 @@ namespace Aggro
             IsTabStop = true;
             Focus();
 
-            Input.Default.SetDirectionSources(
-                KeyToDirectionConverter.ToDirections(this)
-                );
+            Input.Default.SetDirectionSources(KeyToDirectionConverter.ToDirections(this));
 
             Input.Default.SetMouseLeftButtonSources(MouseToPointConverter.LeftButtonToPoints(this));
 

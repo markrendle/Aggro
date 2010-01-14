@@ -16,11 +16,24 @@ namespace Aggro.Engine
     {
         public static readonly DependencyProperty LocationProperty =
             DependencyProperty.Register("Location", typeof(Point), typeof(Entity), new PropertyMetadata(new Point(0, 0)));
+        public static readonly DependencyProperty SizeProperty =
+            DependencyProperty.Register("Size", typeof(Size), typeof(Entity), new PropertyMetadata(new Size()));
 
         public Point Location
         {
-            get { Debug.WriteLine("Entity.Location get"); return (Point)GetValue(LocationProperty); }
+            get { return (Point)GetValue(LocationProperty); }
             protected set { SetValue(LocationProperty, value); }
+        }
+
+        public Point Center
+        {
+            get { return new Point(Location.X + (Size.Width / 2), Location.Y + (Size.Height / 2)); }
+        }
+
+        public Size Size
+        {
+            get { return (Size)GetValue(SizeProperty); }
+            set { SetValue(SizeProperty, value); }
         }
     }
 }

@@ -49,7 +49,17 @@ namespace Aggro.Engine
             set { _speed = value; }
         }
 
-        void  movement_DirectionChanged(object sender, EventArgs e)
+        public Point CurrentLocation
+        {
+            get { return new Point(Location.X + _translateTransform.X, Location.Y + _translateTransform.Y); }
+        }
+
+        public Point CurrentCenter
+        {
+            get { return new Point(CurrentLocation.X + (Size.Width / 2), CurrentLocation.Y + (Size.Height / 2)); }
+        }
+
+        void movement_DirectionChanged(object sender, EventArgs e)
         {
             if (_movement.CurrentDirection == Direction.None)
             {

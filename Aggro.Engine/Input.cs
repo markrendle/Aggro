@@ -12,8 +12,11 @@ using System.Collections.Generic;
 
 namespace Aggro.Engine
 {
-    public class Input
+    public class Input : DependencyObject
     {
+        public static readonly DependencyProperty MousePositionProperty =
+            DependencyProperty.Register("MousePosition", typeof(Point), typeof(Input), new PropertyMetadata(new Point()));
+
         private static readonly Input _default = new Input();
 
         public static Input Default
@@ -33,6 +36,7 @@ namespace Aggro.Engine
         private IObservable<Point> _mouseRightUps;
 
         private IObservable<Point> _mouseMoves;
+        private Point _mousePosition;
 
         public void SetDirectionSources(Tuple<IObservable<Direction>, IObservable<Direction>> sources)
         {
@@ -72,19 +76,31 @@ namespace Aggro.Engine
 
         public void SetMouseMoveSource(IObservable<Point> moves)
         {
+            this.SetBinding(MousePositionProperty, moves);
             this._mouseMoves = moves;
             _sourceChanges.OnNext(InputType.Mouse);
         }
 
-        public IObservable<Direction> KeyDowns
+        public IObservable<Direction> DirectionStarts
         {
             get { return _directionStarts; }
         }
 
 
-        public IObservable<Direction> KeyUps
+        public IObservable<Direction> DirectionStops
         {
             get { return _directionStops; }
+        }
+
+        public IObservable<Point> MouseMoves
+        {
+            get { return _mouseMoves; }
+        }
+
+        public Point MousePosition
+        {
+            get { return (Point)GetValue(MousePositionProperty); }
+            set { SetValue(MousePositionProperty, value); }
         }
 
         public IObservable<InputType> SourceChanges

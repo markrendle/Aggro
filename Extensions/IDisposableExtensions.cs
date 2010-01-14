@@ -1,4 +1,6 @@
-﻿namespace System
+﻿using System.Windows.Threading;
+using System.Windows;
+namespace System
 {
     public static class IDisposableExtensions
     {

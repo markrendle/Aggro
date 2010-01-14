@@ -5,14 +5,21 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     d:DesignHeight="480" d:DesignWidth="640">
-
-    <Canvas x:Name="LayoutRoot" Background="LightGray">
-        <Rectangle Name="block" Width="32" Height="32"
+    <Grid x:Name="LayoutRoot">
+        <Canvas Background="LightGray"/>
+        <Canvas Background="Transparent">
+            <Grid Width="32" Height="32"
                    Canvas.Top="{Binding Player.Location.Y}"
                    Canvas.Left="{Binding Player.Location.X}"
                    RenderTransform="{Binding Player.Transform}"
-                   Fill="Red"
+                   Background="Red"
                    RenderTransformOrigin="0.5 0.5">
-        </Rectangle>
-    </Canvas>
+                <Path Data="M6,0 L12,24 L0,24 L6,0"
+     		  Fill="#FF354FA7" Height="24" Width="12"
+     		  UseLayoutRounding="False" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+              RenderTransform="{Binding Player.Weapon.Transform}"/>
+            </Grid>
+        </Canvas>
+    </Grid>
+
 </UserControl>

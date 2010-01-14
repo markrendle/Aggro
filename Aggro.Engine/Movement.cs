@@ -22,6 +22,7 @@ namespace Aggro.Engine
         private static readonly Dictionary<Direction, Point> _vectors = CreateVectorDictionary();
 
         private Direction _currentDirection;
+        private Queue<Direction> _directionQueue = new Queue<Direction>();
 
         public double X
         {
@@ -54,11 +55,22 @@ namespace Aggro.Engine
         {
             if (!_currentDirection.HasFlag(direction))
             {
-                if(_vectors.ContainsKey(_currentDirection | direction))
+                if (!TryAddDirection(direction))
                 {
-                    CurrentDirection |= direction;
+                    EnqueueDirection(direction);
                 }
             }
+        }
+
+        private bool TryAddDirection(Direction direction)
+        {
+            if (_vectors.ContainsKey(_currentDirection | direction))
+            {
+                CurrentDirection |= direction;
+                return true;
+            }
+
+            return false;
         }
 
         public void RemoveDirection(Direction direction)
@@ -66,6 +78,22 @@ namespace Aggro.Engine
             if (_currentDirection.HasFlag(direction))
             {
                 CurrentDirection -= direction;
+            }
+
+            while (_directionQueue.Count > 0)
+            {
+                if (TryAddDirection(_directionQueue.Dequeue()))
+                {
+                    break;
+                }
+            }
+        }
+
+        private void EnqueueDirection(Direction direction)
+        {
+            if (!_directionQueue.Contains(direction))
+            {
+                _directionQueue.Enqueue(direction);
             }
         }
 
