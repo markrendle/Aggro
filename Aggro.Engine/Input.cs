@@ -36,7 +36,6 @@ namespace Aggro.Engine
         private IObservable<Point> _mouseRightUps;
 
         private IObservable<Point> _mouseMoves;
-        private Point _mousePosition;
 
         public void SetDirectionSources(Tuple<IObservable<Direction>, IObservable<Direction>> sources)
         {
